@@ -13,4 +13,4 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/jobs/single/{id}', [App\Http\Controllers\Job\JobController::class, 'single'])->name('single.job');
-Route::get('/test/templatename/{id}', [App\Http\Controllers\Test\TestController::class, 'testMethod'])->name('templatename.test');
+Route::post('/jobs/save', [App\Http\Controllers\Job\JobController::class, 'saveJob'])->name('save.job');

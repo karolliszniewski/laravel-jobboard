@@ -17,7 +17,27 @@
       </div>
     </div>
   </section>
+  <div class="container">
+@if (\Session::has('save'))
+  <div class="alert alert-success">
+    <p>{!! \Session::get('save') !!}</p>
+  </div>
+</div>
+@endif
 
+@if (\Session::has('jobApply'))
+  <div class="alert alert-primary">
+    <p>{!! \Session::get('jobApply') !!}</p>
+  </div>
+</div>
+@endif
+
+@if (\Session::has('applied'))
+  <div class="alert alert-success">
+    <p>{!! \Session::get('applied') !!}</p>
+  </div>
+</div>
+@endif
   
   <section class="site-section">
     <div class="container">
@@ -66,19 +86,37 @@
             <div class="col-6">
               <form action="{{route('save.job')}}" method="POST">
                 @csrf
-                <input name="job_id" type="text"  value="{{$job->id}}"/>
-                <input name="user_id" type="text"  value="{{AUTH::user()->id}}"/>
-                <input name="job_image" type="text"  value="{{$job->image}}"/>
-                <input name="job_title" type="text"  value="{{$job->job_title}}"/>
-                <input name="job_region" type="text"  value="{{$job->job_region}}"/>
-                <input name="job_type" type="text"  value="{{$job->job_type}}"/>
-                <input name="company" type="text"  value="{{$job->company}}"/>
-              <button name="submit" type="submit" class="btn btn-block btn-light btn-md"><i class="icon-heart"></i>Save Job</button>
+                <input name="job_id" type="hidden"  value="{{$job->id}}"/>
+                <input name="user_id" type="hidden"  value="{{AUTH::user()->id}}"/>
+                <input name="job_image" type="hidden"  value="{{$job->image}}"/>
+                <input name="job_title" type="hidden"  value="{{$job->job_title}}"/>
+                <input name="job_region" type="hidden"  value="{{$job->job_region}}"/>
+                <input name="job_type" type="hidden"  value="{{$job->job_type}}"/>
+                <input name="company" type="hidden"  value="{{$job->company}}"/>
+                @if($savedJob >= 1)
+                <button name="submit" type="submit" class="btn btn-block btn-green btn-md btn-success" disabled><i class="icon-heart" ></i> You saved this job successfully</button>
+                  @else
+                  <button name="submit" type="submit" class="btn btn-block btn-light btn-md"><i class="icon-heart"></i> Save Job</button>
+
+                @endif
               <!--add text-danger to it to make it read-->
               </form>
             </div>
             <div class="col-6">
-              <button class="btn btn-block btn-primary btn-md">Apply Now</button>
+              <form action="{{route('apply.job')}}" method="POST">
+                @csrf
+                <input name="job_id" type="hidden"  value="{{$job->id}}"/>
+                <input name="user_id" type="hidden"  value="{{AUTH::user()->id}}"/>
+                <input name="job_image" type="hidden"  value="{{$job->image}}"/>
+                <input name="job_title" type="hidden"  value="{{$job->job_title}}"/>
+                <input name="job_region" type="hidden"  value="{{$job->job_region}}"/>
+                <input name="job_type" type="hidden"  value="{{$job->job_type}}"/>
+                <input name="company" type="hidden"  value="{{$job->company}}"/>
+                <button type="submit" name="submit" class="btn btn-block btn-primary btn-md">Apply Now</button>
+              <!--add text-danger to it to make it read-->
+        
+              </form>
+      
             </div>
           </div>
 

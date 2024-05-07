@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Job\Job;
 use App\Models\Job\JobSaved;
+use App\Models\Job\Application;
+use Illuminate\Support\Facades\Auth;
 
 class JobController extends Controller
 {
@@ -19,8 +21,10 @@ class JobController extends Controller
 
         $relatedJobsCount = Job::where('category', $job->category)->where('id', '!=' , $id)->count();
 
+        // save job
 
-        return view('jobs.single',compact('job', 'relatedJobs', 'relatedJobsCount'));
+        $savedJob = JobSaved::where('job_id',$id)->where('user_id',Auth::user()->id)->count();
+        return view('jobs.single',compact('job', 'relatedJobs', 'relatedJobsCount', 'savedJob'));
     }
     
 
@@ -37,8 +41,39 @@ class JobController extends Controller
 
         if($saveJob){
 
-            return redirect('/jobs/single/'.$request->job_id)->with('create','job saved successfully');
+            return redirect('/jobs/single/'.$request->job_id)->with('save','job saved successfully');
         }
     }
+
+
+    public function jobApply(Request $request){
+
+
+        if($request->cv == 'No cv'){
+            return redirect('/jobs/single/'.$request->job_id)->with('jobApply','Upload your CV first on the profile page.');
+        }
+
+
+        $applyJob = Application::create([
+             'cv' => Auth::user()->cv,
+            'job_id' => $request->job_id,
+            'user_id' => Auth::user()->id,
+            'job_image' => $request->job_image,
+            'job_title' => $request->job_title,
+            'job_region' => $request->job_region,
+            'job_type' => $request->job_type,
+            'company' => $request->company
+        ]);
+
+        if($applyJob){
+
+            return redirect('/jobs/single/'.$request->job_id)->with('applied','You applied to this job successfully');
+        }
+    }
+
+
+
+
+    
 
 }

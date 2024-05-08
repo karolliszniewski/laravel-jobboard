@@ -112,7 +112,11 @@
                 <input name="job_region" type="hidden"  value="{{$job->job_region}}"/>
                 <input name="job_type" type="hidden"  value="{{$job->job_type}}"/>
                 <input name="company" type="hidden"  value="{{$job->company}}"/>
+                @if($appliedJob > 0)
+                <button type="submit" name="submit" class="btn btn-block btn-primary btn-md" disabled>You already applied</button>
+                @else
                 <button type="submit" name="submit" class="btn btn-block btn-primary btn-md">Apply Now</button>
+                @endif
               <!--add text-danger to it to make it read-->
         
               </form>
@@ -122,6 +126,8 @@
 
         </div>
         <div class="col-lg-4">
+          
+          <!-- copy this -->
           <div class="bg-light p-3 border rounded mb-4">
             <h3 class="text-primary  mt-3 h5 pl-3 mb-3 ">Job Summary</h3>
             <ul class="list-unstyled pl-3 mb-0">
@@ -135,6 +141,18 @@
               <li class="mb-2"><strong class="text-black">Application Deadline:</strong> {{$job->application_deadline}}</li>
             </ul>
           </div>
+
+          <!-- start -->
+
+          <div class="bg-light p-3 border rounded mb-4">
+            <h3 class="text-primary  mt-3 h5 pl-3 mb-3 ">Categories</h3>
+            <ul class="list-unstyled pl-3 mb-0">
+              @foreach ($categories as $category)
+              <li class="mb-2"><a href="#">{{$category->name}}</a> </li>
+              @endforeach
+            </ul>
+          </div>
+
 
           <div class="bg-light p-3 border rounded">
             <h3 class="text-primary  mt-3 h5 pl-3 mb-3 ">Share</h3>

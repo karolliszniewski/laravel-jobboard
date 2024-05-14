@@ -62,7 +62,7 @@
                     <li style="padding-left:544px"><a href="index.html" class="nav-link active">Home</a></li>
                     <li><a href="about.html">About</a></li>
                     
-                    <li><a href="profile.html">Profile</a></li>
+                    <li><a href="{{ route('profile') }}">Profile</a></li>
                   
                     <li><a href="contact.html">Contact</a></li>
                     <li ><a href="post-job.html"><span class="mr-2">+</span> Post a Job</a></li>
@@ -80,11 +80,16 @@
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                          <a class="dropdown-item" href="{{ route('profile') }}" > Profile </a>
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                onclick="event.preventDefault();
                                              document.getElementById('logout-form').submit();">
                                 {{ __('Logout') }}
                             </a>
+                            <a class="dropdown-item"  href="{{ route('saved.jobs') }}">Saved Jobs</a>
+                            <a class="dropdown-item"  href="{{ route('applications') }}">Applications</a>
+                            <a class="dropdown-item"  href="{{ route('edit.details') }}">Edit Details</a>
+                   
 
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                 @csrf
